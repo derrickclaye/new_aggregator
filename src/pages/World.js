@@ -20,11 +20,42 @@ const World = () => {
     const navigate = useNavigate();
     const [articles, setArticles] = useState(null);
     const [fetched, setFetched] = useState(false);
-    const [backdrop, setBackdrop] = useState(false);
+    const [backdrop, setBackdrop] = useState(true);
     
-
+    const getContent = () => {
+       
+        if(backdrop === true) {
+            return (
+                <Backdrop open={backdrop} onClick={() => setBackdrop(false)} >
+                    <CircularProgress />
+                </Backdrop>
+            )
+        }
+        if(backdrop === false) {
+            return (
+                <Fragment>
+                    {
+                        articles !== null &&
+                        <Grid container  justifyContent='center' sx={{mt:5}}>     
+                            <Fragment>
+                                {
+                                    articles.map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                }
+                            </Fragment>
+                        </Grid>
+                    }
+                    {
+                        articles === null &&
+                        <Typography sx={{textAlign:'center', fontSize:12, mt:5}}>No articles have been published yet today.</Typography>
+                    }
+                </Fragment>
+                
+            )
+        }
+            
+        
+    }
     useEffect(() => {
-        setBackdrop(true);
         async function fetchArticles() {
             const response = await fetch('https://us-central1-newsaggregator-f48b9.cloudfunctions.net/app/rss/world');
             const data = await response.json();
@@ -35,16 +66,16 @@ const World = () => {
             }
             else {
                 setArticles(null);
-                setBackdrop(false);
                 setFetched(true);
+                setBackdrop(false);
             }
         }
 
         if(fetched === false) {
             fetchArticles();
         }
-        
-        return;
+
+        return 
     }, [fetched])
     
     return (
@@ -60,27 +91,12 @@ const World = () => {
                 <Typography sx={{textAlign:'center', fontWeight:'bold', color:'#011840'}}>MAJOR WORLD NEWS</Typography>
                 <Typography sx={{textAlign:'center', fontWeight:'bold', color:'#011840', fontSize:12}}>{new Date().toDateString()}</Typography>
             
-                {
-                    articles !== null &&
-                    <Grid container  justifyContent='center' sx={{mt:5}}>     
-                            <Fragment>
-                                {
-                                    articles.map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
-                                }
-                            </Fragment>
-                    </Grid>
-                }
-                {
-                    articles === null &&
-                    <Typography sx={{textAlign:'center', fontSize:12, mt:5}}>No articles have been published yet today.</Typography>
-                }
-                
-                
+                {getContent()}
                 
             </Box>
-            <Backdrop open={backdrop} onClick={() => setBackdrop(false)} >
+            {/* <Backdrop open={backdrop} onClick={() => setBackdrop(false)} >
                 <CircularProgress />
-            </Backdrop>
+            </Backdrop> */}
             <Footer />
         </Box>
             

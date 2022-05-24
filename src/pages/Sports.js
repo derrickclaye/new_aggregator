@@ -21,14 +21,121 @@ const Sports = () => {
     const [articles, setArticles] = useState(null);
     const [news, setNews] = useState('ALL');
     const [fetched, setFetched] = useState(false);
-    const [backdrop, setBackdrop] = useState(false);
+    const [backdrop, setBackdrop] = useState(true);
 
     const handleNewsChange = e => {
         setNews(e.target.innerText);
     }
 
+    const getContent = () => {
+       
+        if(backdrop === true) {
+            return (
+                <Backdrop open={backdrop} onClick={() => setBackdrop(false)} >
+                    <CircularProgress />
+                </Backdrop>
+            )
+        }
+        if(backdrop === false) {
+            return (
+                <Fragment>
+                    {
+                        articles !== null &&
+                        <>
+                            {
+                                news === 'ALL' && articles !== null &&
+                                <Grid container  justifyContent='center' sx={{mt:5}}>
+                                
+                                    {
+                                        articles !== null &&
+                                        <Fragment>
+                                            {
+                                                articles['all'].map((art,idx) => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                            }
+                                        </Fragment>
+                                    
+                                        
+                                    }
+                                </Grid>
+                            }
+                            {
+                                news === 'NBA' && articles !== null &&
+                                <Grid container  justifyContent='center' sx={{mt:5}}>
+                                
+                                    {
+                                        articles !== null &&
+                                        <Fragment>
+                                            {
+                                                articles['nba'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                            }
+                                        </Fragment>
+                                    
+                                        
+                                    }
+                                </Grid>
+                            }
+                            {
+                                news === 'NFL' && articles !== null &&
+                                <Grid container  justifyContent='center' sx={{mt:5}}>
+                                
+                                    {
+                                        articles !== null &&
+                                        <Fragment>
+                                            {
+                                                articles['nfl'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                            }
+                                        </Fragment>
+                                    
+                                        
+                                    }
+                                </Grid>
+                            }
+                            {
+                                news === 'NHL' && articles !== null &&
+                                <Grid container  justifyContent='center' sx={{mt:5}}>
+                                
+                                    {
+                                        articles !== null &&
+                                        <Fragment>
+                                            {
+                                                articles['nhl'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                            }
+                                        </Fragment>
+                                    
+                                        
+                                    }
+                                </Grid>
+                            }
+                            {
+                                news === 'MLB' && articles !== null &&
+                                <Grid container  justifyContent='center' sx={{mt:5}}>
+                                
+                                    {
+                                        articles !== null &&
+                                        <Fragment>
+                                            {
+                                                articles['mlb'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                            }
+                                        </Fragment>
+                                    
+                                        
+                                    }
+                                </Grid>
+                            }
+                        </>
+                    }
+                    {
+                        articles === null &&
+                        <Typography sx={{textAlign:'center', fontSize:12, mt:5}}>No articles have been published yet today.</Typography>
+                    }
+                </Fragment>
+                
+            )
+        }
+            
+        
+    }
     useEffect(() => {
-        setBackdrop(true);
         async function fetchArticles() {
             const response = await fetch('https://us-central1-newsaggregator-f48b9.cloudfunctions.net/app/rss/sports');
             const data = await response.json();
@@ -39,16 +146,16 @@ const Sports = () => {
             }
             else {
                 setArticles(null);
-                setBackdrop(false);
                 setFetched(true);
+                setBackdrop(false);
             }
         }
 
         if(fetched === false) {
             fetchArticles();
         }
-        
-        return;
+
+        return 
     }, [fetched])
     
     return (
@@ -68,94 +175,12 @@ const Sports = () => {
                     <Typography onClick={handleNewsChange} className='selection' sx={{boxShadow:1, p:1, color:'#339af0', bgcolor: news === 'NHL' ? '#e6f4ff' : 'white', cursor:'pointer', width:45, fontSize:12, fontWeight:'bold', textAlign:'center'}}>NHL</Typography>
                     <Typography onClick={handleNewsChange} className='selection' sx={{boxShadow:1, p:1, color:'#339af0', bgcolor: news === 'MLB' ? '#e6f4ff' : 'white', cursor:'pointer', width:45, fontSize:12, fontWeight:'bold', textAlign:'center'}}>MLB</Typography>
                 </Box>
-                {
-                    news === 'ALL' && articles !== null &&
-                    <Grid container  justifyContent='center' sx={{mt:5}}>
-                    
-                        {
-                            articles !== null &&
-                            <Fragment>
-                                {
-                                    articles['all'].map((art,idx) => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
-                                }
-                            </Fragment>
-                        
-                            
-                        }
-                    </Grid>
-                }
-                {
-                    news === 'NBA' && articles !== null &&
-                    <Grid container  justifyContent='center' sx={{mt:5}}>
-                    
-                        {
-                            articles !== null &&
-                            <Fragment>
-                                {
-                                    articles['nba'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
-                                }
-                            </Fragment>
-                        
-                            
-                        }
-                    </Grid>
-                }
-                {
-                    news === 'NFL' && articles !== null &&
-                    <Grid container  justifyContent='center' sx={{mt:5}}>
-                    
-                        {
-                            articles !== null &&
-                            <Fragment>
-                                {
-                                    articles['nfl'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
-                                }
-                            </Fragment>
-                        
-                            
-                        }
-                    </Grid>
-                }
-                {
-                    news === 'NHL' && articles !== null &&
-                    <Grid container  justifyContent='center' sx={{mt:5}}>
-                    
-                        {
-                            articles !== null &&
-                            <Fragment>
-                                {
-                                    articles['nhl'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
-                                }
-                            </Fragment>
-                        
-                            
-                        }
-                    </Grid>
-                }
-                {
-                    news === 'MLB' && articles !== null &&
-                    <Grid container  justifyContent='center' sx={{mt:5}}>
-                    
-                        {
-                            articles !== null &&
-                            <Fragment>
-                                {
-                                    articles['mlb'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
-                                }
-                            </Fragment>
-                        
-                            
-                        }
-                    </Grid>
-                }
-                {
-                    articles === null &&
-                    <Typography sx={{textAlign:'center', fontSize:12, mt:5}}>No articles have been published yet today.</Typography>
-                }
+               {getContent()}
+
             </Box>
-            <Backdrop open={backdrop} onClick={() => setBackdrop(false)} >
+            {/* <Backdrop open={backdrop} onClick={() => setBackdrop(false)} >
                 <CircularProgress />
-            </Backdrop>
+            </Backdrop> */}
             <Footer />
         </Box>
             
