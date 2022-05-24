@@ -30,7 +30,7 @@ const Sports = () => {
     useEffect(() => {
         setBackdrop(true);
         async function fetchArticles() {
-            const response = await fetch('http://localhost:3000/sports');
+            const response = await fetch('https://us-central1-newsaggregator-f48b9.cloudfunctions.net/app/rss/sports');
             const data = await response.json();
             if(response.status === 200) {
                 setArticles(data);

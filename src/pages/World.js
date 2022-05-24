@@ -26,7 +26,7 @@ const World = () => {
     useEffect(() => {
         setBackdrop(true);
         async function fetchArticles() {
-            const response = await fetch('http://localhost:3000/world');
+            const response = await fetch('https://us-central1-newsaggregator-f48b9.cloudfunctions.net/app/rss/world');
             const data = await response.json();
             if(response.status === 200) {
                 setArticles(data);
