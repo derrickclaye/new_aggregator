@@ -8,9 +8,10 @@ import '../App.css';
 const TitleDisplay = props => (
     <Grid className='press selection' sx={{boxShadow:1, bgcolor:'white'}} item>
         <a className='link' href={props.link} target='_blank'>
-            <Box justifyContent='center' alignItems='center' sx={{boxShadow:1, height:250, width:250, p:2, display:'flex', cursor:'pointer'}}>
+            <Box justifyContent='center' alignItems='center' sx={{boxShadow:1, height:250, width:250, p:2, display:'flex', cursor:'pointer', flexDirection:'column'}}>
                 <Typography sx={{textAlign:'center', color:'#339af0', fontWeight:'bold'}}>{props.title}</Typography>
                 {/* <Typography>U.S. Soccer finally achieved equal pay for the men's and women's national teams, so how do their new CBAs work and what do they mean going forward?</Typography> */}
+                <Typography sx={{textAlign:'center', color:'#339af0', fontSize:12, mt:2}}>{props.pubDate}</Typography>
             </Box>
         </a>
    
@@ -39,7 +40,7 @@ const World = () => {
                         <Grid container  justifyContent='center' sx={{mt:5}}>     
                             <Fragment>
                                 {
-                                    articles.map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                    articles.map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} pubDate={art.pubDate} />)
                                 }
                             </Fragment>
                         </Grid>

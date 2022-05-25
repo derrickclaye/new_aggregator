@@ -8,9 +8,10 @@ import '../App.css';
 const TitleDisplay = props => (
     <Grid className='press selection' sx={{boxShadow:1, bgcolor:'white'}} item>
         <a className='link' href={props.link} target='_blank'>
-            <Box justifyContent='center' alignItems='center' sx={{boxShadow:1, height:250, width:250, p:2, display:'flex', cursor:'pointer'}}>
+            <Box justifyContent='center' alignItems='center' sx={{boxShadow:1, height:250, width:250, p:2, display:'flex', cursor:'pointer', flexDirection:'column'}}>
                 <Typography sx={{textAlign:'center', color:'#339af0', fontWeight:'bold'}}>{props.title}</Typography>
                 {/* <Typography>U.S. Soccer finally achieved equal pay for the men's and women's national teams, so how do their new CBAs work and what do they mean going forward?</Typography> */}
+                <Typography sx={{textAlign:'center', color:'#339af0', fontSize:12, mt:2}}>{props.pubDate}</Typography>
             </Box>
         </a>
    
@@ -50,7 +51,7 @@ const Sports = () => {
                                         articles !== null &&
                                         <Fragment>
                                             {
-                                                articles['all'].map((art,idx) => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                                articles['all'].map((art,idx) => <TitleDisplay key={art.title} title={art.title} link={art.link} pubDate={art.pubDate} />)
                                             }
                                         </Fragment>
                                     
@@ -66,7 +67,7 @@ const Sports = () => {
                                         articles !== null &&
                                         <Fragment>
                                             {
-                                                articles['nba'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                                articles['nba'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} pubDate={art.pubDate} />)
                                             }
                                         </Fragment>
                                     
@@ -82,7 +83,7 @@ const Sports = () => {
                                         articles !== null &&
                                         <Fragment>
                                             {
-                                                articles['nfl'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                                articles['nfl'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} pubDate={art.pubDate} />)
                                             }
                                         </Fragment>
                                     
@@ -98,7 +99,7 @@ const Sports = () => {
                                         articles !== null &&
                                         <Fragment>
                                             {
-                                                articles['nhl'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                                articles['nhl'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} pubDate={art.pubDate} />)
                                             }
                                         </Fragment>
                                     
@@ -114,7 +115,7 @@ const Sports = () => {
                                         articles !== null &&
                                         <Fragment>
                                             {
-                                                articles['mlb'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} />)
+                                                articles['mlb'].map(art => <TitleDisplay key={art.title} title={art.title} link={art.link} pubDate={art.pubDate} />)
                                             }
                                         </Fragment>
                                     
@@ -139,6 +140,7 @@ const Sports = () => {
         async function fetchArticles() {
             const response = await fetch('https://us-central1-newsaggregator-f48b9.cloudfunctions.net/app/rss/sports');
             const data = await response.json();
+            console.log(data);
             if(response.status === 200) {
                 setArticles(data);
                 setBackdrop(false);
